@@ -1,7 +1,7 @@
 //FLAPPY BIRDS
 
-//UP - u [ENTER]
-//DOWN - d [ENTER]
+//UP - u/w [ENTER]
+//DOWN - d/s [ENTER]
 //EXIT - x [ENTER]
 
 INITIAL_SPEED:1000;
