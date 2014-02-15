@@ -39,7 +39,7 @@ update_world:{
 	@[`.;`UNIVERSE;:;1_'UNIVERSE,'res];
 	};
 
-print:{-1@"033c","\n" sv .[;(.state.altitude;2);:;"@"]UNIVERSE;};
+print:{-1@"033c","\n" sv .[;(.state.altitude;2);:;"VA" .state.counter mod 2]UNIVERSE;};
 
 bad_position:{[]"#"=UNIVERSE[.state.altitude;2]};
 
