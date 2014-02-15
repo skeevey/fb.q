@@ -14,32 +14,22 @@ INDENT:2;
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
 CLS:@[system;$[`w32~.z.o;"cls";"clear"];""];
 
-UNIVERSE:(
-	SCREEN_WIDTH#"#";
-	SCREEN_WIDTH#"         #";
-	SCREEN_WIDTH#"         #";
-	SCREEN_WIDTH#"         #";
-	SCREEN_WIDTH#"     #    ";
-	SCREEN_WIDTH#"     #    ";
-	SCREEN_WIDTH#"     #    ";
-	SCREEN_WIDTH#"#");
-
 update_world:{
 	//ugly
 	res:("#",(SCREEN_HEIGHT-2)#" "),"#";
 	if[(0=.state.counter mod 4);
-		res:@[res;$[.state.lastdirup;0+;SCREEN_HEIGHT-]@1 2,3+til rand SCREEN_HEIGHT - rand 4 5;:;"#"];
+		res[$[.state.lastdirup;0+;SCREEN_HEIGHT-]@1 2,3+til rand SCREEN_HEIGHT - rand 4 5]:"#";
 		@[`.state;`lastdirup;$[rand 7;not;(::)]];
 	];
-	@[`.;`UNIVERSE;:;1_'UNIVERSE,'res];
+	`.state.universe set 1_'.state.universe,'res;
 	};
 
 clear:{-1@CLS};
 
 print:{clear[];
-	-1@"\n" sv .[;(.state.altitude;INDENT);:;"VA" .state.counter mod 2]UNIVERSE;};
+	-1@"\n" sv .[;(.state.altitude;INDENT);:;"VA" .state.counter mod 2].state.universe;};
 
-bad_position:{[]"#"=UNIVERSE[.state.altitude;INDENT]};
+bad_position:{[]"#"=.state.universe[.state.altitude;INDENT]};
 
 .z.ts:{
 	@[`.state;`counter;+;1];
@@ -66,9 +56,9 @@ bad_position:{[]"#"=UNIVERSE[.state.altitude;INDENT]};
 	x like "[xX]*";
 	[exit 0];
 	x like "[uUwW]*"; //go up
-	[@[`.state;`altitude;:;0|.state.altitude - 1]];
+	[`.state.altitude set 0|.state.altitude - 1];
 	x like "[dDsS]*"; //go down
-	[@[`.state;`altitude;:;(SCREEN_HEIGHT-1)&.state.altitude + 1]];
+	[`.state.altitude set (SCREEN_HEIGHT-1)&.state.altitude + 1];
 	{`do_nothing;::}
 	];
 	};
@@ -77,6 +67,17 @@ start:{[]
 	`.state.counter set 1;
 	`.state.altitude set 2;
 	`.state.lastdirup set 0b;
+	
+	`.state.universe set (
+	SCREEN_WIDTH#"#";
+	SCREEN_WIDTH#"         #";
+	SCREEN_WIDTH#"         #";
+	SCREEN_WIDTH#"         #";
+	SCREEN_WIDTH#"     #    ";
+	SCREEN_WIDTH#"     #    ";
+	SCREEN_WIDTH#"     #    ";
+	SCREEN_WIDTH#"#");
+	
 	system"S ",-5#string `int$.z.t;
 	system"t ",string INITIAL_SPEED;
 	};
