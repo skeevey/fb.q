@@ -11,6 +11,7 @@ MIN_TIME_INTERVAL:1;
 SCREEN_WIDTH:40;
 SCREEN_HEIGHT:8; //can't adjust this yet
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
+CLS:@[system;"clear";""];
 
 .state.lastdirup:0b;
 .state.counter:1;
@@ -39,7 +40,7 @@ update_world:{
 	@[`.;`UNIVERSE;:;1_'UNIVERSE,'res];
 	};
 
-print:{-1@"033c","\n" sv .[;(.state.altitude;2);:;"VA" .state.counter mod 2]UNIVERSE;};
+print:{-1@CLS,"\n" sv .[;(.state.altitude;2);:;"VA" .state.counter mod 2]UNIVERSE;};
 
 bad_position:{[]"#"=UNIVERSE[.state.altitude;2]};
 
@@ -55,7 +56,7 @@ bad_position:{[]"#"=UNIVERSE[.state.altitude;2]};
 	//check for crash
 	if[COLLISION_DETECTION_ON and bad_position[];
 		system"t ",string 0;
-		-1@"\033c","\n" sv SCREEN_HEIGHT#enlist SCREEN_WIDTH#"*";
+		-1@CLS,"\n" sv SCREEN_HEIGHT#enlist SCREEN_WIDTH#"*";
 		-1@"Game over!";
 		-1@"Score ",string level;
 		exit 0;
