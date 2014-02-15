@@ -32,8 +32,8 @@ update_world:{
 	res:("#",(SCREEN_HEIGHT-2)#" "),"#";
 	if[(0=.state.counter mod 4);
 		res:$[.state.lastdirup;
-			@[res;1 2,3+til rand SCREEN_HEIGHT-5;:;"#"];
-			@[res;SCREEN_HEIGHT-1 2,3+til rand SCREEN_HEIGHT-5;:;"#"]
+			@[res;1 2,3+til rand SCREEN_HEIGHT-4;:;"#"];
+			@[res;SCREEN_HEIGHT-1 2,3+til rand SCREEN_HEIGHT-4;:;"#"]
 			];
 		@[`.state;`lastdirup;$[rand 7;not;(::)]];
 	];
