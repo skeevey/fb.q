@@ -34,7 +34,7 @@ update_world:{
 			@[res;1 2,3+til rand SCREEN_HEIGHT-5;:;"#"];
 			@[res;SCREEN_HEIGHT-1 2,3+til rand SCREEN_HEIGHT-5;:;"#"]
 			];
-		@[`.state;lastdirup;$[rand 7;not;(::)]];
+		@[`.state;`lastdirup;$[rand 7;not;(::)]];
 	];
 	@[`.;`UNIVERSE;:;1_'UNIVERSE,'res];
 	};
