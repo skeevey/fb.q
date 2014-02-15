@@ -5,7 +5,7 @@
 //EXIT - x [ENTER]
 
 INITIAL_SPEED:1000;
-DIFFICULTY_CURVE:0.025;
+DIFFICULTY_CURVE:0.03;
 LEVEL_LENGTH:30;
 MIN_TIME_INTERVAL:1;
 SCREEN_WIDTH:40;
@@ -13,10 +13,6 @@ SCREEN_HEIGHT:8; //can't adjust this yet
 INDENT:2;
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
 CLS:@[system;$[`w32~.z.o;"cls";"clear"];""];
-
-.state.lastdirup:0b;
-.state.counter:1;
-.state.altitude:2;
 
 UNIVERSE:(
 	SCREEN_WIDTH#"#";
@@ -50,7 +46,8 @@ bad_position:{[]"#"=UNIVERSE[.state.altitude;INDENT]};
 	level:.state.counter div LEVEL_LENGTH;
 	//level up?
 	if[0 = .state.counter mod LEVEL_LENGTH;
-		system"t ", string MIN_TIME_INTERVAL | ceiling INITIAL_SPEED * exp neg DIFFICULTY_CURVE * level;
+		new_speed:ceiling INITIAL_SPEED * exp neg DIFFICULTY_CURVE * level;
+		system"t ", string MIN_TIME_INTERVAL | new_speed;
 	];
 	//check for crash
 	if[COLLISION_DETECTION_ON and bad_position[];
@@ -75,9 +72,9 @@ bad_position:{[]"#"=UNIVERSE[.state.altitude;INDENT]};
 	};
 
 start:{[]
-	@[`.state;`counter;:;1];
-	@[`.state;`altitude;:;2];
-	@[`.state;`lastdirup;:;0b];
+	`.state.counter set 1;
+	`.state.altitude set 2;
+	`.state.lastdirup set 0b;
 	system"S ",-5#string `int$.z.t;
 	system"t ",string INITIAL_SPEED;
 	};
