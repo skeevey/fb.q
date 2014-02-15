@@ -5,11 +5,12 @@
 //EXIT - x [ENTER]
 
 INITIAL_SPEED:1000;
-DIFFICULTY_CURVE:0.02;
+DIFFICULTY_CURVE:0.03;
 LEVEL_LENGTH:20;
 MIN_TIME_INTERVAL:1;
 SCREEN_WIDTH:40;
 SCREEN_HEIGHT:8; //can't adjust this yet
+INDENT:2;
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
 CLS:@[system;$[`w32~.z.o;"cls";"clear"];""];
 
@@ -41,9 +42,9 @@ update_world:{
 	};
 
 clear:{-1@CLS};
-print:{clear[];-1@"\n" sv .[;(.state.altitude;2);:;"VA" .state.counter mod 2]UNIVERSE;};
+print:{clear[];-1@"\n" sv .[;(.state.altitude;INDENT);:;"VA" .state.counter mod 2]UNIVERSE;};
 
-bad_position:{[]"#"=UNIVERSE[.state.altitude;2]};
+bad_position:{[]"#"=UNIVERSE[.state.altitude;INDENT]};
 
 .z.ts:{
 	@[`.state;`counter;+;1];
