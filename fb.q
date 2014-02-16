@@ -12,6 +12,7 @@ SCREEN_WIDTH:40;
 SCREEN_HEIGHT:8; //can't adjust this yet
 INDENT:2;
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
+GRAVITY:0;
 CLS:@[system;$[`w32~.z.o;"cls";"clear"];""];
 
 update_world:{
@@ -31,8 +32,11 @@ print:{clear[];
 
 bad_position:{[]"#"=.state.universe[.state.altitude;INDENT]};
 
+move:{`.state.altitude set(SCREEN_HEIGHT-1) & 0 | .state.altitude + x};
+
 .z.ts:{
 	@[`.state;`counter;+;1];
+	move GRAVITY;
 	update_world[];
 	print[];
 	level:.state.counter div LEVEL_LENGTH;
@@ -56,9 +60,9 @@ bad_position:{[]"#"=.state.universe[.state.altitude;INDENT]};
 	x like "[xX]*";
 	[exit 0];
 	x like "[uUwW]*"; //go up
-	[`.state.altitude set 0|.state.altitude - 1];
+	[move[neg 1]];
 	x like "[dDsS]*"; //go down
-	[`.state.altitude set (SCREEN_HEIGHT-1)&.state.altitude + 1];
+	[move[1]];
 	{`do_nothing;::}
 	];
 	};
