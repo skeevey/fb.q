@@ -12,14 +12,15 @@ SCREEN_WIDTH:40;
 SCREEN_HEIGHT:8; //can't adjust this yet
 INDENT:2;
 COLLISION_DETECTION_ON:1b; //change to turn off collision detection
-GRAVITY:0;
+GRAVITY:1;
 CLS:@[system;$[`w32~.z.o;"cls";"clear"];""];
 
 update_world:{
 	//ugly
 	res:("#",(SCREEN_HEIGHT-2)#" "),"#";
-	if[(0=.state.counter mod 4);
-		res[$[.state.lastdirup;0+;SCREEN_HEIGHT-]@1 2,3+til rand SCREEN_HEIGHT - rand 4 5]:"#";
+	if[(0=.state.counter mod 5);
+		wall_size:rand SCREEN_HEIGHT - rand 4 5;
+		res[$[.state.lastdirup;0+;SCREEN_HEIGHT-]@1 2,3+til wall_size]:"#";
 		@[`.state;`lastdirup;$[bernoulli 0.85;not;(::)]];
 	];
 	`.state.universe set 1_'.state.universe,'res;
@@ -30,14 +31,15 @@ bernoulli:{x > rand 1.0};
 clear:{-1@CLS};
 
 print:{clear[];
-	-1@"\n" sv .[;(.state.altitude;INDENT);:;"VA" .state.counter mod 2].state.universe;};
+	sprite:"VA" .state.counter mod 2;
+	-1@"\n" sv .[;(.state.altitude;INDENT);:;sprite].state.universe;};
 
 bad_position:{[]"#"=.state.universe[.state.altitude;INDENT]};
 
-move:{`.state.altitude set(SCREEN_HEIGHT-1) & 0 | .state.altitude + x};
+move:{`.state.altitude set (SCREEN_HEIGHT - 1) & 0 | .state.altitude + x};
 
 .z.ts:{
-	@[`.state;`counter;+;1];
+	`.state.counter set .state.counter + 1;
 	move GRAVITY;
 	update_world[];
 	print[];
@@ -65,7 +67,7 @@ move:{`.state.altitude set(SCREEN_HEIGHT-1) & 0 | .state.altitude + x};
 	[move[neg 1]];
 	x like "[dDsS]*"; //go down
 	[move[1]];
-	{`do_nothing;::}
+	[move[neg 1]]
 	];
 	};
 
@@ -84,7 +86,7 @@ start:{[]
 	SCREEN_WIDTH#"     #    ";
 	SCREEN_WIDTH#"#");
 	
-	system"S ",-5#string `int$.z.t;
+	system"S ",-5 sublist string `int$.z.t;
 	system"t ",string INITIAL_SPEED;
 	};
 
